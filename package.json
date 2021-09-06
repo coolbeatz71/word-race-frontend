@@ -6,7 +6,11 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "type:check": "tsc",
+        "lint": "eslint ./components/**/* ./pages/**/*",
+        "lint:fix": "eslint ./components/**/* ./pages/**/* --fix",
+        "prettier": "prettier --check --config package.json ./components/**/* ./pages/**/*",
+        "prettier:fix": "prettier --write --config package.json ./components/**/* ./pages/**/*"
     },
     "dependencies": {
         "@types/random-words": "^1.1.2",
@@ -18,9 +22,45 @@
         "swr": "0.2.2"
     },
     "devDependencies": {
+        "@next/eslint-plugin-next": "^11.1.0",
+        "@typescript-eslint/eslint-plugin": "^4.29.3",
+        "@typescript-eslint/parser": "^4.29.3",
+        "enforce-branch-name": "^1.0.1",
         "@types/react": "17.0.20",
-        "eslint": "7.32.0",
         "eslint-config-next": "11.1.2",
-        "typescript": "4.4.2"
+        "typescript": "^4.4.2",
+        "eslint": "^7.32.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-config-prettier-react": "^0.0.24",
+        "eslint-config-react-app": "^6.0.0",
+        "eslint-config-standard": "^16.0.2",
+        "eslint-config-standard-react": "^11.0.1",
+        "eslint-import-resolver-node": "^0.3.4",
+        "eslint-import-resolver-typescript": "^2.4.0",
+        "eslint-plugin-flowtype": "^5.7.1",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-jest": "^24.3.5",
+        "eslint-plugin-jsx-a11y": "^6.4.1",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-prettier": "^3.4.1",
+        "eslint-plugin-react": "^7.23.2",
+        "eslint-plugin-react-hooks": "^4.2.0",
+        "husky": "4.3.0",
+        "lint-staged": "^10.5.4",
+        "prettier": "^2.3.2"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "npm run type:check && lint-staged",
+            "pre-push": "enforce-branch-name '^(ft|ch|bg)-[a-z]+(-[a-z]+)*$' --ignore 'develop'"
+        }
+    },
+    "lint-staged": {
+        "*.+(jsx|js|json|css|scss|md|tsx|ts)": [
+            "prettier --write"
+        ],
+        "*.+(js|jsx|tsx|ts)": [
+            "eslint --fix"
+        ]
     }
 }
